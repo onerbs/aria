@@ -32,16 +32,10 @@ public final class Local {
 	/** File separator. {@code /} */
 	public static final String FS;
 
-	/**
-	 * Platform-specific path separator.
-	 * <p>{@code ;} on Windows / {@code :} on UNIX
-	 */
+	/** Path separator. {@code ;} Windows | {@code :} UNIX */
 	public static final String PS;
 
-	/**
-	 * Platform-specific line separator.
-	 * <p>{@code \r\n} on Windows | {@code \n} on UNIX
-	 */
+	/** Line separator. {@code \r\n} Windows | {@code \n} UNIX */
 	public static final String LS;
 
 	/** The user's name. */
