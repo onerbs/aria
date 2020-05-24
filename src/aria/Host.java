@@ -26,23 +26,14 @@ package aria;
  */
 public final class Host {
 
-	/** The Host name. */
-	public static final String NAME = System.getProperty("os.name");
-
 	/** The Host architecture. */
 	public static final String ARCH = System.getProperty("os.arch");
 
+	/** The Host name. */
+	public static final String NAME = System.getProperty("os.name");
+
 	/** The Host version. */
 	public static final String VERSION = System.getProperty("os.version");
-
-	/**
-	 * Check whether the Host OS is Windows or not.
-	 *
-	 * @return {@code true} if the OS of this Host is Windows
-	 */
-	public static boolean isWindows() {
-		return NAME.startsWith("Windows");
-	}
 
 	/**
 	 * Check whether the Host OS is Linux or not.
@@ -51,6 +42,15 @@ public final class Host {
 	 */
 	public static boolean isLinux() {
 		return NAME.startsWith("Linux");
+	}
+
+	/**
+	 * Check whether the Host OS is Windows or not.
+	 *
+	 * @return {@code true} if the OS of this Host is Windows
+	 */
+	public static boolean isWindows() {
+		return NAME.startsWith("Windows");
 	}
 
 	private Host() {}
