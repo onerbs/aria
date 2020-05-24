@@ -84,7 +84,7 @@ public final class Tools {
 	 *
 	 * @return [times, rest?]
 	 */
-	public static int[] fits(final int min, final int max) {
+	public static int[] fit(final int min, final int max) {
 		int i = 0;
 		int m = max;
 		for (; m >= min; i++) m -= min;
@@ -194,6 +194,14 @@ public final class Tools {
 			if (bool(arg)) path.add(arg);
 		}
 		return path.toString();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends Number> void seq(T[] src, T from, T step, boolean descending) {
+		for (int i = 0; i < src.length; i++) {
+			final var next = step.doubleValue() * i * (descending ? -1 : 1);
+			src[i] = (T) box(from.doubleValue() + next);
+		}
 	}
 
 	private Tools() {}

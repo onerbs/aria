@@ -24,9 +24,9 @@ import java.util.stream.IntStream;
  *
  * @param <N> Number Type
  *
- * @author Alejandro Elí
- * @version 02/11/19
- * @since 1.0
+ * @author  Alejandro Elí
+ * @version 24/05/20
+ * @since   1.0
  */
 public abstract class AbstractRange<N extends Number> implements RangeInterface<N> {
 
@@ -58,11 +58,6 @@ public abstract class AbstractRange<N extends Number> implements RangeInterface<
 	}
 
 	@Override
-	public N getStartValue() {
-		return startValue;
-	}
-
-	@Override
 	public N getFinalValue() {
 		return finalValue;
 	}
@@ -75,6 +70,11 @@ public abstract class AbstractRange<N extends Number> implements RangeInterface<
 	@Override
 	public N getLowestValue() {
 		return lowestValue;
+	}
+
+	@Override
+	public N getStartValue() {
+		return startValue;
 	}
 
 	@Override
@@ -94,9 +94,9 @@ public abstract class AbstractRange<N extends Number> implements RangeInterface<
  *
  * @param <N> Number Type
  *
- * @author Alejandro Elí
+ * @author  Alejandro Elí
  * @version 24/05/20
- * @since 1.0
+ * @since   1.0
  */
 abstract class AbstractIntRange<N extends Number> extends AbstractRange<N> {
 
@@ -113,9 +113,7 @@ abstract class AbstractIntRange<N extends Number> extends AbstractRange<N> {
 		int beg = startValue.intValue();
 		int end = finalValue.intValue();
 		int stp = (0 == step) ? 1 : Math.abs(step);
-		if (isDescending()) for (; beg >= end; beg -= stp) builder.add(beg);
-		else for (; beg <= end; beg += stp) builder.add(beg);
+		for (; beg >= end; beg += (descending ? -stp : stp)) builder.add(beg);
 		return builder.build();
 	}
-
 }

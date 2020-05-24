@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Alejandro Elí
+ * Copyright (C) 2020 Alejandro Elí
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,14 +19,14 @@ package aria.util;
 
 import java.util.Iterator;
 
-import static aria.util.Tools.fits;
+import static aria.util.Tools.fit;
 
 /**
  * Range of Integer.
  *
- * @author Alejandro Elí
- * @version 02/11/19
- * @since 1.0
+ * @author  Alejandro Elí
+ * @version 24/05/20
+ * @since   1.0
  */
 public class Range extends AbstractIntRange<Integer> {
 
@@ -42,13 +42,8 @@ public class Range extends AbstractIntRange<Integer> {
 
 	@Override
 	public Integer[] toArray(final Integer step) {
-		var arr = new Integer[fits(step, highestValue - lowestValue)[0] + 1];
-		if (descending)
-			for (int i = 0; i < arr.length; i++)
-				arr[i] = startValue - (step * i);
-		else
-			for (int i = 0; i < arr.length; i++)
-				arr[i] = startValue + (step * i);
+		var arr = new Integer[fit(step, highestValue - lowestValue)[0] + 1];
+		Tools.seq(arr, startValue, step, descending);
 		return arr;
 	}
 
@@ -60,9 +55,9 @@ public class Range extends AbstractIntRange<Integer> {
 	/**
 	 * Range of Byte.
 	 *
-	 * @author Alejandro Elí
-	 * @version 02/11/19
-	 * @since 1.0
+	 * @author  Alejandro Elí
+	 * @version 24/05/20
+	 * @since   1.0
 	 */
 	public static class OfByte extends AbstractIntRange<Byte> {
 
@@ -78,13 +73,8 @@ public class Range extends AbstractIntRange<Integer> {
 
 		@Override
 		public Byte[] toArray(final Byte step) {
-			var arr = new Byte[fits(step, highestValue - lowestValue)[0] + 1];
-			if (descending)
-				for (int i = 0; i < arr.length; i++)
-					arr[i] = (byte) (startValue - (step * i));
-			else
-				for (int i = 0; i < arr.length; i++)
-					arr[i] = (byte) (startValue + (step * i));
+			var arr = new Byte[fit(step, highestValue - lowestValue)[0] + 1];
+			Tools.seq(arr, startValue, step, descending);
 			return arr;
 		}
 
@@ -98,9 +88,9 @@ public class Range extends AbstractIntRange<Integer> {
 	/**
 	 * Range of Short.
 	 *
-	 * @author Alejandro Elí
-	 * @version 02/11/19
-	 * @since 1.0
+	 * @author  Alejandro Elí
+	 * @version 24/05/20
+	 * @since   1.0
 	 */
 	public static class OfShort extends AbstractIntRange<Short> {
 
@@ -116,13 +106,8 @@ public class Range extends AbstractIntRange<Integer> {
 
 		@Override
 		public Short[] toArray(final Short step) {
-			var arr = new Short[fits(step, highestValue - lowestValue)[0] + 1];
-			if (descending)
-				for (int i = 0; i < arr.length; i++)
-					arr[i] = (short) (startValue - (step * i));
-			else
-				for (int i = 0; i < arr.length; i++)
-					arr[i] = (short) (startValue + (step * i));
+			var arr = new Short[fit(step, highestValue - lowestValue)[0] + 1];
+			Tools.seq(arr, startValue, step, descending);
 			return arr;
 		}
 
@@ -136,9 +121,9 @@ public class Range extends AbstractIntRange<Integer> {
 	/**
 	 * Range of Long.
 	 *
-	 * @author Alejandro Elí
-	 * @version 02/11/19
-	 * @since 1.0
+	 * @author  Alejandro Elí
+	 * @version 24/05/20
+	 * @since   1.0
 	 */
 	public static class OfLong extends AbstractRange<Long> {
 
@@ -154,14 +139,8 @@ public class Range extends AbstractIntRange<Integer> {
 
 		@Override
 		public Long[] toArray(final Long step) {
-			var arr = new Long[fits((int) (long) step,
-				(int) (highestValue - lowestValue))[0] + 1];
-			if (descending)
-				for (int i = 0; i < arr.length; i++)
-					arr[i] = (startValue - (step * i));
-			else
-				for (int i = 0; i < arr.length; i++)
-					arr[i] = (startValue + (step * i));
+			var arr = new Long[fit((int) (long) step, (int) (highestValue - lowestValue))[0] + 1];
+			Tools.seq(arr, startValue, step, descending);
 			return arr;
 		}
 
@@ -175,9 +154,9 @@ public class Range extends AbstractIntRange<Integer> {
 	/**
 	 * Range of Float.
 	 *
-	 * @author Alejandro Elí
-	 * @version 02/11/19
-	 * @since 1.0
+	 * @author  Alejandro Elí
+	 * @version 24/05/20
+	 * @since   1.0
 	 */
 	public static class OfFloat extends AbstractRange<Float> {
 
@@ -193,14 +172,8 @@ public class Range extends AbstractIntRange<Integer> {
 
 		@Override
 		public Float[] toArray(final Float step) {
-			var arr = new Float[fits((int) (float) step,
-				(int) (highestValue - lowestValue))[0] + 1];
-			if (descending)
-				for (int i = 0; i < arr.length; i++)
-					arr[i] = (startValue - (step * i));
-			else
-				for (int i = 0; i < arr.length; i++)
-					arr[i] = (startValue + (step * i));
+			var arr = new Float[fit((int) (float) step, (int) (highestValue - lowestValue))[0] + 1];
+			Tools.seq(arr, startValue, step, descending);
 			return arr;
 		}
 
@@ -214,9 +187,9 @@ public class Range extends AbstractIntRange<Integer> {
 	/**
 	 * Range of Double.
 	 *
-	 * @author Alejandro Elí
-	 * @version 02/11/19
-	 * @since 1.0
+	 * @author  Alejandro Elí
+	 * @version 24/05/20
+	 * @since   1.0
 	 */
 	public static class OfDouble extends AbstractRange<Double> {
 
@@ -232,14 +205,8 @@ public class Range extends AbstractIntRange<Integer> {
 
 		@Override
 		public Double[] toArray(final Double step) {
-			var arr = new Double[fits((int) (double) step,
-				(int) (highestValue - lowestValue))[0] + 1];
-			if (descending)
-				for (int i = 0; i < arr.length; i++)
-					arr[i] = (startValue - (step * i));
-			else
-				for (int i = 0; i < arr.length; i++)
-					arr[i] = (startValue + (step * i));
+			var arr = new Double[fit((int) (double) step, (int) (highestValue - lowestValue))[0] + 1];
+			Tools.seq(arr, startValue, step, descending);
 			return arr;
 		}
 
@@ -255,18 +222,41 @@ public class Range extends AbstractIntRange<Integer> {
  * Range Interface.
  *
  * @param <N> Number Type
- * @author Alejandro Elí
- * @version 02/11/19
- * @since 1.0
+ *
+ * @author  Alejandro Elí
+ * @version 24/05/20
+ * @since   1.0
  */
 interface RangeInterface<N extends Number> extends Iterable<N> {
 
 	/**
-	 * Retrieve the start value of this range.
+	 * Check if the provided number fits within this range.
 	 *
-	 * @return the start value of this range
+	 * @param number The number to be checked
+	 *
+	 * @return {@code true} if the provided number fits within the inner array
+	 * 	boundaries
 	 */
-	N getStartValue();
+	default boolean admit(final Number number) {
+		if (null == number) return false;
+		var lowest = getLowestValue().doubleValue();
+		var highest = getHighestValue().doubleValue();
+		var n = number.doubleValue();
+		return ((lowest <= n) && (n <= highest));
+	}
+
+	/**
+	 * Check if the provided range fits within this range.
+	 *
+	 * @param range The number to be checked
+	 *
+	 * @return {@code true} if the provided number fits within the inner array
+	 * 	boundaries
+	 */
+	default boolean admit(RangeInterface<N> range) {
+		if (null == range) return false;
+		return getLowestValue().doubleValue() <= range.getLowestValue().doubleValue() && getHighestValue().doubleValue() >= range.getHighestValue().doubleValue();
+	}
 
 	/**
 	 * Retrieve the final value of this range.
@@ -290,45 +280,25 @@ interface RangeInterface<N extends Number> extends Iterable<N> {
 	N getLowestValue();
 
 	/**
+	 * Retrieve the start value of this range.
+	 *
+	 * @return the start value of this range
+	 */
+	N getStartValue();
+
+	/**
 	 * Know if this range is in descending order.
 	 *
-	 * @return {@code true} if this range is in descending order
-	 * (i.e. {@code startValue > finalValue}).
+	 * @return {@code true} if this range is in descending order (i.e. {@code
+	 * 	startValue > finalValue}).
 	 */
 	boolean isDescending();
-
-	/**
-	 * Check if the provided number fits within this range.
-	 *
-	 * @param number The number to be checked
-	 * @return {@code true} if the provided number fits within the
-	 * inner array boundaries
-	 */
-	default boolean admit(final Number number) {
-		if (null == number) return false;
-		var lowest = getLowestValue().doubleValue();
-		var highest = getHighestValue().doubleValue();
-		var n = number.doubleValue();
-		return ((lowest <= n) && (n <= highest));
-	}
-
-	/**
-	 * Check if the provided range fits within this range.
-	 *
-	 * @param range The number to be checked
-	 * @return {@code true} if the provided number fits within the
-	 * inner array boundaries
-	 */
-	default boolean admit(RangeInterface<N> range) {
-		if (null == range) return false;
-		return getLowestValue().doubleValue() <= range.getLowestValue().doubleValue()
-		   && getHighestValue().doubleValue() >= range.getHighestValue().doubleValue();
-	}
 
 	/**
 	 * Returns an iterator over this range.
 	 *
 	 * @return an iterator over this range
+	 *
 	 * @see #toArray()
 	 */
 	@Override
@@ -340,7 +310,9 @@ interface RangeInterface<N extends Number> extends Iterable<N> {
 	 * Returns an iterator over this range.
 	 *
 	 * @param step Incremental step
+	 *
 	 * @return an iterator over this range
+	 *
 	 * @see #toArray(Number))
 	 */
 	default Iterator<N> iterator(final N step) {
@@ -348,17 +320,17 @@ interface RangeInterface<N extends Number> extends Iterable<N> {
 	}
 
 	/**
-	 * Create an array of numbers from this range,
-	 * incrementing by {@code step}.
+	 * Create an array of numbers from this range, incrementing by {@code step}.
 	 *
 	 * <p><b>Example:</b> If this is a range {@code 1 -> 5} and the step
 	 * is set to 2, then the array will be {@code [1, 3, 5]}.</p>
 	 *
 	 * <p>Possible loss of data is warned (i.e. The ranges {@code 1 -> 5}
-	 * and {@code 1 -> 6} will give the same array as result
-	 * if the step is set to 2).</p>
+	 * and {@code 1 -> 6} will give the same array as result if the step is set to
+	 * 2).</p>
 	 *
 	 * @param step The step
+	 *
 	 * @return An array of numbers from this range
 	 */
 	N[] toArray(N step);
