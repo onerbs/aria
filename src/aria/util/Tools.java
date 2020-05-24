@@ -27,13 +27,13 @@ package aria.util;
 public final class Tools {
 
 	/** The numeric characters Range. [-] */
-	public static final Range NUMERIC = new Range(48, 57);
+	public static final Range.OfByte NUMERIC = new Range.OfByte((byte) 48, (byte) 57);
 
 	/** The uppercase letters Range. [-] */
-	public static final Range UPPERCASE = new Range(65, 90);
+	public static final Range.OfByte UPPERCASE = new Range.OfByte((byte) 65, (byte) 90);
 
 	/** The lowercase letters Range. [-] */
-	public static final Range LOWERCASE = new Range(97, 122);
+	public static final Range.OfByte LOWERCASE = new Range.OfByte((byte) 97, (byte) 122);
 
 	/**
 	 * Check if the provided number is even.
@@ -79,7 +79,7 @@ public final class Tools {
 		return checkCase(UPPERCASE, seq);
 	}
 
-	private static boolean checkCase(final Range range, final String str) {
+	private static boolean checkCase(final Range.OfByte range, final String str) {
 		for (int i = 0; i < str.length(); i++) {
 			if (!range.admit(str.codePointAt(i))) {
 				return false;
