@@ -20,64 +20,46 @@ package aria.util;
 /**
  * Tools.
  *
- * @author Alejandro Elí
+ * @author  Alejandro Elí
  * @version 24/05/20
- * @since 1.0
+ * @since   1.0
  */
 public final class Tools {
 
-	/** The numeric characters Range. [-] */
+	/** The numeric characters Range. [0-9] */
 	public static final Range.OfByte NUMERIC = new Range.OfByte((byte) 48, (byte) 57);
 
-	/** The uppercase letters Range. [-] */
+	/** The uppercase letters Range. [A-Z] */
 	public static final Range.OfByte UPPERCASE = new Range.OfByte((byte) 65, (byte) 90);
 
-	/** The lowercase letters Range. [-] */
+	/** The lowercase letters Range. [a-z] */
 	public static final Range.OfByte LOWERCASE = new Range.OfByte((byte) 97, (byte) 122);
 
-	/**
-	 * Check if the provided number is even.
-	 *
-	 * @param n The number to be checked
-	 *
-	 * @return {@code true} if the provided number is par
-	 */
-	public static boolean isEven(final Number n) {
-		var s = String.valueOf(n.doubleValue());
-		var e = Math.pow(10, (s.length() - 1) - s.indexOf('.'));
-		return ((n.doubleValue() * e) % 2 == 0);
+	public static boolean bool(final Number n) {
+		return !(n.doubleValue() == 0);
 	}
 
-	/**
-	 * Check if the provided character is an alpha character. [a-zA-Z]
-	 *
-	 * @param c The character to be checked
-	 *
-	 * @return {@code true} if the provided character is an alpha character
-	 */
-	public static boolean isLetter(final char c) {
-		return isLowerCase(c) || isUpperCase(c);
+	public static boolean bool(final String str) {
+		return !(null == str || str.isBlank());
 	}
 
-	public static boolean isNumber(final char ch) {
-		return NUMERIC.admit((int) ch);
-	}
+	//@!fmt
+	public static Boolean   box(final boolean b) { return b; }
 
-	public static boolean isLowerCase(final char ch) {
-		return LOWERCASE.admit((int) ch);
-	}
+	public static Character box(final char c)    { return c; }
 
-	public static boolean isLowerCase(final String seq) {
-		return checkCase(LOWERCASE, seq);
-	}
+	public static Byte      box(final byte n)    { return n; }
 
-	public static boolean isUpperCase(final char ch) {
-		return UPPERCASE.admit((int) ch);
-	}
+	public static Short     box(final short n)   { return n; }
 
-	public static boolean isUpperCase(final String seq) {
-		return checkCase(UPPERCASE, seq);
-	}
+	public static Integer   box(final int n)     { return n; }
+
+	public static Long      box(final long n)    { return n; }
+
+	public static Float     box(final float n)   { return n; }
+
+	public static Double    box(final double n)  { return n; }
+	//@fmt
 
 	private static boolean checkCase(final Range.OfByte range, final String str) {
 		for (int i = 0; i < str.length(); i++) {
@@ -109,31 +91,49 @@ public final class Tools {
 		return new int[]{i, ((i * min) < max) ? (max - (i * min)) : 0};
 	}
 
-	public static boolean bool(final Number n) {
-		// return (n.doubleValue() > 0);
-		return !(n.doubleValue() == 0);
+	/**
+	 * Check if the provided number is even.
+	 *
+	 * @param n The number to be checked
+	 *
+	 * @return {@code true} if the provided number is par
+	 */
+	public static boolean isEven(final Number n) {
+		var s = String.valueOf(n.doubleValue());
+		var e = Math.pow(10, (s.length() - 1) - s.indexOf('.'));
+		return ((n.doubleValue() * e) % 2 == 0);
 	}
 
-	public static boolean bool(final String str) {
-		return !(null == str || str.isBlank());
+	/**
+	 * Check if the provided character is an alpha character. [a-zA-Z]
+	 *
+	 * @param c The character to be checked
+	 *
+	 * @return {@code true} if the provided character is an alpha character
+	 */
+	public static boolean isLetter(final char c) {
+		return isLowerCase(c) || isUpperCase(c);
 	}
 
-	//@!fmt
-	public static Boolean   box(final boolean b) { return b; }
+	public static boolean isLowerCase(final char ch) {
+		return LOWERCASE.admit((int) ch);
+	}
 
-	public static Character box(final char c)    { return c; }
+	public static boolean isLowerCase(final String seq) {
+		return checkCase(LOWERCASE, seq);
+	}
 
-	public static Byte      box(final byte n)    { return n; }
+	public static boolean isNumber(final char ch) {
+		return NUMERIC.admit((int) ch);
+	}
 
-	public static Short     box(final short n)   { return n; }
+	public static boolean isUpperCase(final char ch) {
+		return UPPERCASE.admit((int) ch);
+	}
 
-	public static Integer   box(final int n)     { return n; }
-
-	public static Long      box(final long n)    { return n; }
-
-	public static Float     box(final float n)   { return n; }
-
-	public static Double    box(final double n)  { return n; }
+	public static boolean isUpperCase(final String seq) {
+		return checkCase(UPPERCASE, seq);
+	}
 
 	/**
 	 * Normalize a number.
@@ -161,7 +161,6 @@ public final class Tools {
 		while (n < min) n += delta;
 		return n;
 	}
-	//@fmt
 
 	/**
 	 * Normalize numbers.
@@ -183,18 +182,16 @@ public final class Tools {
 	}
 
 	/**
-	 * Generate a path from the provided {@code args}.
+	 * Generate a path from the provided arguments.
 	 *
 	 * @param args The parts of the path
 	 *
 	 * @return A string representation of the generated path
 	 */
-	public static String pathy(final CharSequence... args) {
+	public static String path(final String... args) {
 		var path = new java.util.StringJoiner(aria.Local.FS);
 		for (var arg : args) {
-			if (null != arg) {
-				path.add(arg);
-			}
+			if (bool(arg)) path.add(arg);
 		}
 		return path.toString();
 	}
