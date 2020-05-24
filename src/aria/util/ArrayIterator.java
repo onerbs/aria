@@ -17,6 +17,7 @@
 
 package aria.util;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -42,7 +43,7 @@ public class ArrayIterator<E> implements Iterator<E> {
 	 * @param source The source array
 	 */
 	public ArrayIterator(final E[] source) {
-		inner = source;
+		inner = Arrays.copyOf(source, source.length);
 		current = 0;
 	}
 
