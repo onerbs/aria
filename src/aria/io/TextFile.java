@@ -24,7 +24,7 @@ package aria.io;
  * @version 24/05/20
  * @since   1.0
  */
-public abstract class TextFile extends File implements TextFileInterface {
+public class TextFile extends File implements TextFileInterface {
 
 	private static final long serialVersionUID = 3288881805920088878L;
 
@@ -38,33 +38,33 @@ public abstract class TextFile extends File implements TextFileInterface {
 	private String encoding = UTF_8;
 
 	/**
-	 * Initialize an abstract text file from the specified path.
+	 * Initialize a File from a path.
 	 *
-	 * <p>Initialize a File with the specified path</p>
+	 * <p>Initialize a File from the specified path</p>
 	 *
-	 * @param path the path to the file
+	 * @param path The path to the file
 	 */
 	public TextFile(final String path) {
 		super(path);
 	}
 
 	/**
-	 * Initialize an abstract text file from the specified path.
+	 * Initialize a File from a path.
 	 *
-	 * <p>Initialize an abstract text file from the specified path</p>
+	 * <p>Initialize a File from the specified path</p>
 	 *
-	 * @param path the path to the file
+	 * @param path The path to the file
 	 */
 	public TextFile(final java.nio.file.Path path) {
 		super(path);
 	}
 
 	/**
-	 * Initialize an abstract text file from a {@code java.io.File}.
+	 * Initialize a File from a {@code java.io.File}.
 	 *
-	 * <p>This text file will contain the same path as the specified file</p>
+	 * <p>This file will contain the same path as the specified file</p>
 	 *
-	 * @param origin origin file
+	 * @param origin The origin file
 	 */
 	public TextFile(final java.io.File origin) {
 		super(origin);
@@ -73,40 +73,40 @@ public abstract class TextFile extends File implements TextFileInterface {
 	/**
 	 * Initialize a File from a composed path.
 	 *
-	 * <p>Initialize a File with the specified path. The path will be
+	 * <p>Initialize a File from the specified path. The path will be
 	 * created by joining {@code parent} and {@code child} strings by a {@code
 	 * /}.</p>
 	 *
-	 * @param parent the path to the parent file
-	 * @param child  the name of the child file
+	 * @param parent The path to the parent file
+	 * @param child  The name of the child file
 	 */
 	public TextFile(final String parent, final String child) {
 		super(parent, child);
 	}
 
 	/**
-	 * Initialize an abstract text file from a composed path.
+	 * Initialize a File from a composed path.
 	 *
-	 * <p>Initialize an abstract text file from the specified path.
-	 * The path will be created by joining {@code parent.toAbsolutePath().toString()}
-	 * and {@code child} strings by a {@code /}.</p>
+	 * <p>Initialize a File from the specified path. The path will be
+	 * created by joining {@code parent.toAbsolutePath().toString()} and {@code
+	 * child} strings by a {@code /}.</p>
 	 *
-	 * @param parent parent file path
-	 * @param child  name of the file
+	 * @param parent The parent file path
+	 * @param child  The name of the file
 	 */
 	public TextFile(final java.nio.file.Path parent, final String child) {
 		super(parent, child);
 	}
 
 	/**
-	 * Initialize an abstract text file from a composed path.
+	 * Initialize a File from a composed path.
 	 *
-	 * <p>Initialize an abstract text file from the specified path.
-	 * The path will be created by joining {@code parent.toAbsolutePath()} and
-	 * {@code child} strings by a {@code /}.</p>
+	 * <p>Initialize a File from the specified path. The path will be
+	 * created by joining {@code parent.toAbsolutePath()} and {@code child}
+	 * strings by a {@code /}.</p>
 	 *
-	 * @param parent parent file
-	 * @param child  name of the file
+	 * @param parent The parent file
+	 * @param child  The name of the file
 	 */
 	public TextFile(final java.io.File parent, final String child) {
 		super(parent, child);
@@ -130,11 +130,13 @@ public abstract class TextFile extends File implements TextFileInterface {
 	@Override
 	public int[] read(final int ofs, final int length, final String enc) {
 		final var list = new java.util.ArrayList<Integer>();
-		try (var fis = new java.io.FileInputStream(getAbsoluteFile()); var isr = new java.io.InputStreamReader(fis, enc); var bfr = new java.io.BufferedReader(isr)) {
+		try (
+			var fis = new java.io.FileInputStream(getAbsoluteFile());
+			var isr = new java.io.InputStreamReader(fis, enc);
+			var bfr = new java.io.BufferedReader(isr)
+		) {
 			var hasLimit = length > 0;
-			int index = 0;
-			int step = 0;
-			int got;
+			int index = 0, step = 0, got;
 			while ((got = bfr.read()) > -1) {
 				if (++index <= ofs) continue;
 				if (hasLimit && ++step > length) break;
