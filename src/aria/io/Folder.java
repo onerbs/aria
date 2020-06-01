@@ -17,11 +17,10 @@
 
 package aria.io;
 
-import aria.util.ArrayList;
-import aria.util.Arrays;
 import aria.util.Tools;
 
-import static aria.Local.FS;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Folder.
@@ -48,7 +47,7 @@ public class Folder extends File implements FolderInterface {
 	 *
 	 * <p>Initialize a Folder from the specified path</p>
 	 *
-	 * @param path the path to the folder
+	 * @param path The path to the folder
 	 */
 	public Folder(final String path) {
 		super(path);
@@ -59,7 +58,7 @@ public class Folder extends File implements FolderInterface {
 	 *
 	 * <p>Initialize a Folder from the specified path</p>
 	 *
-	 * @param path the path to the folder
+	 * @param path The path to the folder
 	 */
 	public Folder(final java.nio.file.Path path) {
 		super(path.toAbsolutePath().toString());
@@ -70,7 +69,7 @@ public class Folder extends File implements FolderInterface {
 	 *
 	 * <p>This file will contain the same path as the specified file</p>
 	 *
-	 * @param origin origin file
+	 * @param origin The origin file
 	 */
 	public Folder(final java.io.File origin) {
 		super(origin.getAbsolutePath());
@@ -83,8 +82,8 @@ public class Folder extends File implements FolderInterface {
 	 * created by joining {@code parent} and {@code child} strings by a {@code
 	 * /}.</p>
 	 *
-	 * @param parent the path to the parent file
-	 * @param child  the name of the child file
+	 * @param parent The parent file path
+	 * @param child  The name of the file
 	 */
 	public Folder(final String parent, final String child) {
 		this(String.format("%s/%s", parent, child));
@@ -97,8 +96,8 @@ public class Folder extends File implements FolderInterface {
 	 * created by joining {@code parent.toAbsolutePath().toString()} and {@code
 	 * child} strings by a {@code /}.</p>
 	 *
-	 * @param parent parent file path
-	 * @param child  name of the file
+	 * @param parent The parent file path
+	 * @param child  The name of the file
 	 */
 	public Folder(final java.nio.file.Path parent, final String child) {
 		this(parent.toAbsolutePath().toString(), child);
@@ -109,13 +108,15 @@ public class Folder extends File implements FolderInterface {
 	 *
 	 * <p>Initialize a Folder from the specified path. The path will be
 	 * created by joining {@code parent.toAbsolutePath()} and {@code child}
-	 * strings by a {@code /}.</p>
+	 * strings by the platform-specific file separator.</p>
 	 *
-	 * @param parent parent file
-	 * @param child  name of the file
+	 * @param parent The parent file path
+	 * @param child  The name of the file
+	 *
+	 * @see aria.Local#FS
 	 */
 	public Folder(final java.io.File parent, final String child) {
-		this(parent.getAbsolutePath(), child);
+		this(String.format("%s%s%s", parent.getAbsolutePath(), aria.Local.FS, child));
 	}
 }
 
@@ -134,7 +135,7 @@ interface FolderInterface extends FileInterface {
 	 *
 	 * @param name The name of the file to be deleted
 	 *
-	 * @return {@code true} if the operation succeed
+	 * @return {@code true} if the operation was successful
 	 *
 	 * @see java.io.File#delete()
 	 */
@@ -147,7 +148,7 @@ interface FolderInterface extends FileInterface {
 	 *
 	 * @param recursive Delete recursively?
 	 *
-	 * @return {@code true} if the operation succeed
+	 * @return {@code true} if the operation was successful
 	 */
 	default boolean deleteEmptyFolders(boolean recursive) {
 		boolean status = true;
@@ -163,7 +164,7 @@ interface FolderInterface extends FileInterface {
 	/**
 	 * Delete the empty folders inside this folder (non recursive).
 	 *
-	 * @return {@code true} if the operation succeed
+	 * @return {@code true} if the operation was successful
 	 */
 	default boolean deleteEmptyFolders() {
 		return deleteEmptyFolders(false);
@@ -172,29 +173,27 @@ interface FolderInterface extends FileInterface {
 	/**
 	 * Returns a list of the files inside this directory.
 	 *
-	 * @return a list of the files inside this directory
+	 * @return A list of the files inside this directory
 	 */
 	default ArrayList<File> getFiles() {
-		final var list = new ArrayList<File>();
-		list.addAll(f(listFiles(java.io.File::isFile)));
-		return list;
+		final var files = f(listFiles(java.io.File::isFile));
+		return new ArrayList<>(Arrays.asList(files));
 	}
 
 	/**
 	 * Returns a list of the folders inside this directory.
 	 *
-	 * @return a list of the folders inside this directory
+	 * @return A list of the folders inside this directory
 	 */
 	default ArrayList<Folder> getFolders() {
-		final var list = new ArrayList<Folder>();
-		list.addAll(d(listFiles(java.io.File::isDirectory)));
-		return list;
+		final var dirs = d(listFiles(java.io.File::isDirectory));
+		return new ArrayList<>(Arrays.asList(dirs));
 	}
 
 	/**
 	 * Check if this folder is empty or not.
 	 *
-	 * @return true if folder is empty, false otherwise
+	 * @return {@code true} if this folder is empty
 	 */
 	default boolean isEmpty() {
 		return null == listFiles();
@@ -203,9 +202,9 @@ interface FolderInterface extends FileInterface {
 	/**
 	 * Delete this folder if is empty.
 	 *
-	 * @param recursive recursively delete empty folders?
+	 * @param recursive Recursively delete empty folders?
 	 *
-	 * @return {@code true} if the operation succeed
+	 * @return {@code true} if the operation was successful
 	 */
 	default boolean safeDelete(boolean recursive) {
 		if (recursive) for (var d : getFolders()) {
@@ -222,7 +221,7 @@ interface FolderInterface extends FileInterface {
 	/**
 	 * Delete this folder if is empty (non recursive).
 	 *
-	 * @return {@code true} if the operation succeed
+	 * @return {@code true} if the operation was successful
 	 */
 	default boolean safeDelete() {
 		return safeDelete(false);
@@ -231,28 +230,28 @@ interface FolderInterface extends FileInterface {
 	/**
 	 * Convert from {@code java.io.File[]} to {@code aria.io.Folder[]}.
 	 *
-	 * @param arr Array of Files
+	 * @param input The input array
 	 *
-	 * @return array of Files from array of Dirs
+	 * @return An array of {@code Folder} from an array of {@code java.io.File}
 	 */
-	private static Folder[] d(final java.io.File[] arr) {
-		var ret = new Folder[arr.length];
-		for (var i = 0; i < arr.length; i++)
-			ret[i] = new Folder(arr[i]);
+	private static Folder[] d(final java.io.File[] input) {
+		var ret = new Folder[input.length];
+		for (var i = 0; i < input.length; i++)
+			ret[i] = new Folder(input[i]);
 		return ret;
 	}
 
 	/**
 	 * Convert from {@code java.io.File[]} to {@code aria.io.File[]}.
 	 *
-	 * @param arr Array of Files
+	 * @param input The input array
 	 *
-	 * @return array of Fils from array of Files
+	 * @return An array of {@code File} from an array of {@code java.io.File}
 	 */
-	private static File[] f(final java.io.File[] arr) {
-		var ret = new File[arr.length];
-		for (var i = 0; i < arr.length; i++)
-			ret[i] = new File(arr[i]);
+	private static File[] f(final java.io.File[] input) {
+		var ret = new File[input.length];
+		for (var i = 0; i < input.length; i++)
+			ret[i] = new File(input[i]);
 		return ret;
 	}
 }
