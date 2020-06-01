@@ -44,7 +44,7 @@ public class File extends java.io.File implements FileInterface {
 	 *
 	 * <p>Initialize a File from the specified path</p>
 	 *
-	 * @param path the path to the file
+	 * @param path The path to the file
 	 */
 	public File(final String path) {
 		super(path);
@@ -55,7 +55,7 @@ public class File extends java.io.File implements FileInterface {
 	 *
 	 * <p>Initialize a File from the specified path</p>
 	 *
-	 * @param path the path to the file
+	 * @param path The path to the file
 	 */
 	public File(final java.nio.file.Path path) {
 		super(path.toAbsolutePath().toString());
@@ -66,7 +66,7 @@ public class File extends java.io.File implements FileInterface {
 	 *
 	 * <p>This file will contain the same path as the specified file</p>
 	 *
-	 * @param origin origin file
+	 * @param origin The origin file
 	 */
 	public File(final java.io.File origin) {
 		super(origin.getAbsolutePath());
@@ -79,8 +79,8 @@ public class File extends java.io.File implements FileInterface {
 	 * created by joining {@code parent} and {@code child} strings by a {@code
 	 * /}.</p>
 	 *
-	 * @param parent the path to the parent file
-	 * @param child  the name of the child file
+	 * @param parent The path to the parent file
+	 * @param child  The name of the child file
 	 */
 	public File(final String parent, final String child) {
 		this(String.format("%s/%s", parent, child));
@@ -93,8 +93,8 @@ public class File extends java.io.File implements FileInterface {
 	 * created by joining {@code parent.toAbsolutePath().toString()} and {@code
 	 * child} strings by a {@code /}.</p>
 	 *
-	 * @param parent parent file path
-	 * @param child  name of the file
+	 * @param parent The parent file path
+	 * @param child  The name of the file
 	 */
 	public File(final java.nio.file.Path parent, final String child) {
 		this(parent.toAbsolutePath().toString(), child);
@@ -107,8 +107,8 @@ public class File extends java.io.File implements FileInterface {
 	 * created by joining {@code parent.toAbsolutePath()} and {@code child}
 	 * strings by a {@code /}.</p>
 	 *
-	 * @param parent parent file
-	 * @param child  name of the file
+	 * @param parent The parent file
+	 * @param child  The name of the file
 	 */
 	public File(final java.io.File parent, final String child) {
 		this(parent.getAbsolutePath(), child);
@@ -117,16 +117,15 @@ public class File extends java.io.File implements FileInterface {
 	@Override
 	public boolean delete() {
 		if (super.delete()) return true;
-		System.err.println(getAbsolutePath() + " was not deleted.");
+		System.err.println(this + " was not deleted.");
 		return false;
 	}
 
 	@Override
-	public boolean moveTo(final java.io.File dest) throws java.io.IOException {
-		if (!dest.exists())
-			throw new java.io.FileNotFoundException(dest + " does not exist.");
-		if (!dest.isDirectory()) throw new FileOperationException(this, "move");
-		java.nio.file.Files.move(toPath(), dest.toPath(), java.nio.file.StandardCopyOption.ATOMIC_MOVE);
+	public boolean moveTo(final java.io.File folder) throws java.io.IOException {
+		if (!folder.exists()) throw new java.io.FileNotFoundException(folder + " does not exist.");
+		if (!folder.isDirectory()) throw new java.io.IOException("Can't move " + this);
+		java.nio.file.Files.move(toPath(), folder.toPath(), java.nio.file.StandardCopyOption.ATOMIC_MOVE);
 		return true;
 	}
 
@@ -149,22 +148,24 @@ interface FileInterface extends BaseFileInterface {
 	/**
 	 * Move this file to a directory different than the parent one.
 	 *
-	 * @param dest destination directory
+	 * @param folder The destination folder
 	 *
-	 * @return true if operation succeed; else otherwise
+	 * @return {@code true} if the operation was successful
 	 *
-	 * @throws java.io.IOException if can't move
+	 * @throws java.io.IOException if can't move or if the
+	 *                             {@code File} is not a directory
 	 */
-	boolean moveTo(java.io.File dest) throws java.io.IOException;
+	boolean moveTo(java.io.File folder) throws java.io.IOException;
 
 	/**
 	 * Move this file to a directory different than the parent one.
 	 *
-	 * @param path Path to the new parent directory
+	 * @param path The path to the new parent folder
 	 *
-	 * @return true if operation succeed; else otherwise
+	 * @return {@code true} if the operation was successful
 	 *
-	 * @throws java.io.IOException if can't move
+	 * @throws java.io.IOException if can't move or if the specified
+	 *                             path does not points to a directory
 	 */
 	default boolean moveTo(CharSequence path) throws java.io.IOException {
 		return moveTo(new java.io.File(String.valueOf(path)));
@@ -173,14 +174,14 @@ interface FileInterface extends BaseFileInterface {
 	/**
 	 * Move this file to a Directory.
 	 *
-	 * @param dest destination Directory
+	 * @param folder The destination folder
 	 *
-	 * @return true if operation succeed; else otherwise
+	 * @return {@code true} if the operation was successful
 	 *
 	 * @throws java.io.IOException if can't move
 	 */
-	default boolean moveTo(Folder dest) throws java.io.IOException {
-		return moveTo(dest.getAbsoluteFile());
+	default boolean moveTo(Folder folder) throws java.io.IOException {
+		return moveTo(folder.getAbsoluteFile());
 	}
 
 	/**
@@ -199,7 +200,7 @@ interface FileInterface extends BaseFileInterface {
 	 *
 	 * @param name The new name for this file
 	 *
-	 * @return {@code true} if the renaming succeeded; {@code false} otherwise
+	 * @return {@code true} if the operation was successful
 	 */
 	default boolean rename(String name) {
 		if (!Tools.bool(name)) return false;
