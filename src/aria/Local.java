@@ -29,7 +29,7 @@ import static java.lang.System.getenv;
  */
 public final class Local {
 
-	/** File separator. {@code /} */
+	/** File separator. {@code \} Windows | {@code /} UNIX */
 	public static final String FS;
 
 	/** Path separator. {@code ;} Windows | {@code :} UNIX */

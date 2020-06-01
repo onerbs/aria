@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Alejandro Elí
+ * Copyright (C) 2020 Alejandro Elí
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,10 +26,11 @@ import java.nio.file.Path;
  *
  * <p>Based on {@code java.io.File}</p>
  *
- * @author Alejandro Elí
- * @version 03/11/19
+ * @author  Alejandro Elí
+ * @version 24/05/20
+ * @since   1.0
+ *
  * @see java.io.File
- * @since 1.0
  */
 interface BaseFileInterface extends java.io.Serializable, Comparable<java.io.File> {
 
